@@ -28,6 +28,7 @@ namespace CorruptsAllVoidStages
     [BepInPlugin("com.groovesalad.CorruptsAllVoidStages", "CorruptsAllVoidStages", "1.0.0")]
     public class CorruptsAllVoidStages : BaseUnityPlugin, IContentPackProvider
     {
+        public bool disableOcclusionCulling;
         public RuntimeVoidStageTemplate voidStageTemplate;
         public ContentPack contentPack;
         public ExpansionDef newVoidStageHiddenExpansion;
@@ -36,6 +37,8 @@ namespace CorruptsAllVoidStages
 
         public void Awake()
         {
+            disableOcclusionCulling = Config.Bind("Optimization", "Disable Occlusion Culling", true, "Disables occlusion culling on Desolate Reef. Enabling culling will slightly improve performance but may cause flickering in certain areas of the map.").Value;
+
             Language.Init();
 
             contentPack = new ContentPack
@@ -227,6 +230,10 @@ namespace CorruptsAllVoidStages
             SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
             SceneDirector.onPrePopulateSceneServer += SceneDirector_onPrePopulateSceneServer;
             Run.onRunStartGlobal += Run_onRunStartGlobal;
+            if (disableOcclusionCulling)
+            {
+                CameraRigController.onCameraEnableGlobal += CameraRigController_onCameraEnableGlobal;
+            }
         }
 
         public void OnDisable()
@@ -237,6 +244,7 @@ namespace CorruptsAllVoidStages
             SceneManager.activeSceneChanged -= SceneManager_activeSceneChanged;
             SceneDirector.onPrePopulateSceneServer -= SceneDirector_onPrePopulateSceneServer;
             Run.onRunStartGlobal -= Run_onRunStartGlobal;
+            CameraRigController.onCameraEnableGlobal -= CameraRigController_onCameraEnableGlobal;
         }
 
         private void ContentManager_collectContentPackProviders(ContentManager.AddContentPackProviderDelegate addContentPackProvider)
@@ -274,7 +282,7 @@ namespace CorruptsAllVoidStages
 
         private void SceneDirector_onPrePopulateSceneServer(SceneDirector sceneDirector)
         {
-            if (SceneCatalog.mostRecentSceneDef.cachedName == "voidstage" && voidStageTemplate != null)
+            if (SceneCatalog.mostRecentSceneDef?.cachedName == "voidstage" && voidStageTemplate != null)
             {
                 voidStageTemplate.OnPrePopulateSceneServer(sceneDirector);
             }
@@ -285,6 +293,14 @@ namespace CorruptsAllVoidStages
             if (NetworkServer.active)
             {
                 run.SetEventFlag("NoVoidStage");
+            }
+        }
+
+        private void CameraRigController_onCameraEnableGlobal(CameraRigController cameraRigController)
+        {
+            if (SceneCatalog.mostRecentSceneDef?.cachedName == "voidstage" && cameraRigController.sceneCam)
+            {
+                cameraRigController.sceneCam.useOcclusionCulling = false;
             }
         }
 

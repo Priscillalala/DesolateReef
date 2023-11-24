@@ -42,10 +42,11 @@ namespace CorruptsAllVoidStages
                     cornerB = new Vector3(45, 68, -95),
                 },
                 // rest of stairs
-                new SimpleBoxZone
+                new SimpleRadialZone
                 {
-                    cornerA = new Vector3(90, 60, 18),
-                    cornerB = new Vector3(-72, 120, -82),
+                    center = new Vector2(2.425146f, -12.55224f),
+                    height = new RangeFloat { min = 37.74302f, max = 130f },
+                    radius = 50f,
                 },
                 // random nodes under spirals
                 new SimpleSphereZone
@@ -61,8 +62,15 @@ namespace CorruptsAllVoidStages
                 // top section of island with platform removed
                 new SimpleBoxZone
                 {
-                    cornerA = new Vector3(-48.19818f, 22.49212f, 216.6162f),
+                    cornerA = new Vector3(-30f, 22f, 214f),
                     cornerB = new Vector3(-220.7236f, 42.97554f, 247.8934f),
+                },
+                // part of the top section is fake
+                new SimpleRadialZone
+                {
+                    center = new Vector2(-184, 209),
+                    height = new RangeFloat { min = 25f, max = 50f },
+                    radius = 15f,
                 },
                 // random node that used to be on platform
                 new SimpleSphereZone
@@ -506,7 +514,7 @@ namespace CorruptsAllVoidStages
                 new DirectorCardCategorySelection.Category
                 {
                     name = "Shrines",
-                    selectionWeight = 10f,
+                    selectionWeight = 8f,
                     cards = new[]
                     {
                         new DirectorCard
@@ -705,7 +713,7 @@ namespace CorruptsAllVoidStages
                 new DirectorCardCategorySelection.Category
                 {
                     name = "Shrines",
-                    selectionWeight = 10f,
+                    selectionWeight = 8f,
                     cards = new[]
                     {
                         new DirectorCard
@@ -1192,6 +1200,7 @@ namespace CorruptsAllVoidStages
                 if (disabledGroundNodeZones.Any(x => x.IsInBounds(position)))
                 {
                     DirectorCore.instance.AddOccupiedNode(groundNodes, new NodeGraph.NodeIndex(i));
+                    //GameObject.CreatePrimitive(PrimitiveType.Sphere).transform.position = position;
                 }
             }
             NodeGraph airNodes = SceneInfo.instance.airNodes;
@@ -1201,6 +1210,7 @@ namespace CorruptsAllVoidStages
                 if (disabledAirNodeZones.Any(x => x.IsInBounds(position)))
                 {
                     DirectorCore.instance.AddOccupiedNode(airNodes, new NodeGraph.NodeIndex(i));
+                    //GameObject.CreatePrimitive(PrimitiveType.Sphere).transform.position = position;
                 }
             }
         }
