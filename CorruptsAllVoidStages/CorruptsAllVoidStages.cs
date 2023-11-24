@@ -48,7 +48,6 @@ namespace CorruptsAllVoidStages
 
         public async Task LoadAsync()
         {
-            //var ;
             var entitlementDLC1 = Addressables.LoadAssetAsync<EntitlementDef>("RoR2/DLC1/Common/entitlementDLC1.asset");
             var voidStage = Addressables.LoadAssetAsync<SceneDef>("RoR2/DLC1/voidstage/voidstage.asset");
             var sgStage2 = Addressables.LoadAssetAsync<SceneCollection>("RoR2/Base/SceneGroups/sgStage2.asset");
@@ -70,13 +69,11 @@ namespace CorruptsAllVoidStages
 
             newVoidStageHiddenExpansion = ScriptableObject.CreateInstance<ExpansionDef>();
             newVoidStageHiddenExpansion.name = "groovesalad.NewVoidStage";
-            Debug.Log("await entitlementDLC1!");
 
             newVoidStageHiddenExpansion.requiredEntitlement = await entitlementDLC1;
             newVoidStageHiddenExpansion.nameToken = string.Empty;
             newVoidStageHiddenExpansion.descriptionToken = string.Empty;
 
-            Debug.Log("await voidStage!");
             await voidStage;
             voidStage.Result.requiredExpansion = newVoidStageHiddenExpansion;
             voidStage.Result.sceneType = SceneType.Stage;
@@ -103,13 +100,11 @@ namespace CorruptsAllVoidStages
             await matVoidMetalTrimGrassyVertexColorsOnly;
             await texVoidMoss;
             CommonAssets.SetMatVoidMetalOvergrown(matVoidMetalTrimGrassyVertexColorsOnly.Result, texSand1.Result, texVoidMoss.Result);
-            Debug.Log("await coral!");
 
             await SPCoralMDLit;
             await texRampVoidFlatCoral;
             CommonAssets.SetVoidCoralLit(SPCoralMDLit.Result, texRampVoidFlatCoral.Result, texVoidMoss.Result);
 
-            Debug.Log("await diorama!");
             voidStage.Result.dioramaPrefab = PrefabAPI.InstantiateClone(await VoidStageDiorama, "DesolateReefDiorama", false);
             if (voidStage.Result.dioramaPrefab.TryGetComponent(out ModelPanelParameters modelPanelParameters))
             {
@@ -149,7 +144,6 @@ namespace CorruptsAllVoidStages
                                 mdlVoidArchEntry.gameObject.SetActive(true);
                                 if (mdlVoidArchEntry.TryGetComponent(out MeshRenderer archMeshRenderer))
                                 {
-                                    Debug.Log("await mat void trim!");
                                     archMeshRenderer.sharedMaterial = await matVoidTrim;
                                 }
                                 mdlVoidArchEntry.Find("mdlVoidArchEntry.003")?.gameObject.SetActive(false);
@@ -199,12 +193,9 @@ namespace CorruptsAllVoidStages
                 smallVoidCoralLit.transform.localScale = Vector3.one * 0.8f;
             }
 
-            Debug.Log("await Lemurian Master!");
             await LemurianMaster;
-            Debug.Log("got Lemurian Master!");
             CommonAssets.SetUnderwaterLemurianMaster(LemurianMaster.Result);
 
-            //yield return assets;
             voidStage.Result.previewTexture = desolateReefAssets.LoadAsset<Sprite>("texDesolateReefPreview").texture;
             voidStage.Result.portalMaterial = new Material(await matBazaarSeerGolemplains);
             voidStage.Result.portalMaterial.SetTexture("_MainTex", desolateReefAssets.LoadAsset<Sprite>("texDesolateReefSeerPreview").texture);
@@ -235,8 +226,6 @@ namespace CorruptsAllVoidStages
             On.RoR2.RuleDef.AvailableChoiceCount += RuleDef_AvailableChoiceCount;
             SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
             SceneDirector.onPrePopulateSceneServer += SceneDirector_onPrePopulateSceneServer;
-            //On.RoR2.VoidStageMissionController.Start += VoidStageMissionController_Start;
-            //On.RoR2.DirectorCore.OnEnable += DirectorCore_OnEnable;
             Run.onRunStartGlobal += Run_onRunStartGlobal;
         }
 
@@ -247,8 +236,6 @@ namespace CorruptsAllVoidStages
             On.RoR2.RuleDef.AvailableChoiceCount -= RuleDef_AvailableChoiceCount;
             SceneManager.activeSceneChanged -= SceneManager_activeSceneChanged;
             SceneDirector.onPrePopulateSceneServer -= SceneDirector_onPrePopulateSceneServer;
-            //On.RoR2.VoidStageMissionController.Start -= VoidStageMissionController_Start;
-            //On.RoR2.DirectorCore.OnEnable -= DirectorCore_OnEnable;
             Run.onRunStartGlobal -= Run_onRunStartGlobal;
         }
 
@@ -303,7 +290,6 @@ namespace CorruptsAllVoidStages
 
         public IEnumerator LoadStaticContentAsync(LoadStaticContentAsyncArgs args)
         {
-            Debug.Log("underwaterLemurianMaster exists content? " + CommonAssets.underwaterLemurianMaster != null);
             contentPack.expansionDefs.Add(new[]
             {
                 newVoidStageHiddenExpansion,
@@ -327,56 +313,3 @@ namespace CorruptsAllVoidStages
         }
     }
 }
-/*assets = AssetBundle.LoadFromFile(System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Info.Location), "desolatereefassets"));
-
-var entitlementDLC1 = Addressables.LoadAssetAsync<EntitlementDef>("RoR2/DLC1/Common/entitlementDLC1.asset");
-var voidStage = Addressables.LoadAssetAsync<SceneDef>("RoR2/DLC1/voidstage/voidstage.asset");
-var sgStage2 = Addressables.LoadAssetAsync<SceneCollection>("RoR2/Base/SceneGroups/sgStage2.asset");
-var sgStage3 = Addressables.LoadAssetAsync<SceneCollection>("RoR2/Base/SceneGroups/sgStage3.asset");
-var soundlessDepths = Addressables.LoadAssetAsync<MusicTrackDef>("RoR2/DLC1/Common/muGameplayDLC1_06.asset");
-var thermodynamicEquilibrium = Addressables.LoadAssetAsync<MusicTrackDef>("RoR2/Base/Common/muSong05.asset");
-var matBazaarSeerGolemplains = Addressables.LoadAssetAsync<Material>("RoR2/Base/bazaar/matBazaarSeerGolemplains.mat");
-
-contentPack = new ContentPack
-{
-    identifier = identifier
-};
-
-newVoidStageHiddenExpansion = ScriptableObject.CreateInstance<ExpansionDef>();
-newVoidStageHiddenExpansion.name = "groovesalad.NewVoidStage";
-newVoidStageHiddenExpansion.requiredEntitlement = await entitlementDLC1.Task;
-newVoidStageHiddenExpansion.nameToken = string.Empty;
-newVoidStageHiddenExpansion.descriptionToken = string.Empty;
-
-await voidStage.Task;
-voidStage.Result.requiredExpansion = newVoidStageHiddenExpansion;
-voidStage.Result.sceneType = SceneType.Stage;
-voidStage.Result.blockOrbitalSkills = false;
-voidStage.Result.destinationsGroup = await sgStage3.Task;
-await sgStage2.Task;
-ArrayUtils.ArrayAppend(ref sgStage2.Result._sceneEntries, new SceneCollection.SceneEntry
-{
-    sceneDef = voidStage.Result,
-    weight = 1f,
-});
-voidStage.Result.stageOrder = 2;
-voidStage.Result.validForRandomSelection = true;
-voidStage.Result.mainTrack = await soundlessDepths.Task;
-voidStage.Result.bossTrack = await thermodynamicEquilibrium.Task;
-voidStage.Result.nameToken = "GS_MAP_DESOLATEREEF_TITLE";
-voidStage.Result.subtitleToken = "GS_MAP_DESOLATEREEF_SUBTITLE";
-voidStage.Result.loreToken = "GS_MAP_DESOLATEREEF_LORE";
-voidStage.Result.portalSelectionMessageString = "GS_BAZAAR_SEER_DESOLATEREEF";
-
-Texture texDesolateReefPreview = assets.LoadAsset<Sprite>("texDesolateReefPreview").texture;
-voidStage.Result.previewTexture = texDesolateReefPreview;
-voidStage.Result.portalMaterial = new Material(await matBazaarSeerGolemplains.Task);
-voidStage.Result.portalMaterial.SetTexture("_MainTex", texDesolateReefPreview);
-
-entitlementDLC1.Release();
-voidStage.Release();
-sgStage2.Release();
-sgStage3.Release();
-soundlessDepths.Release();
-thermodynamicEquilibrium.Release();
-matBazaarSeerGolemplains.Release();*/

@@ -62,7 +62,6 @@ namespace CorruptsAllVoidStages
 
         public static void SetUnderwaterLemurianMaster(GameObject LemurianMaster)
         {
-            Debug.Log("SetUnderwaterLemurianMaster!");
             underwaterLemurianMaster = PrefabAPI.InstantiateClone(LemurianMaster, "UnderwaterLemurianMaster", true);
             AISkillDriver[] skillDrivers = underwaterLemurianMaster.GetComponents<AISkillDriver>();
             AISkillDriver strafeAndShoot = skillDrivers.FirstOrDefault(x => x.customName == "StrafeAndShoot");
@@ -75,7 +74,6 @@ namespace CorruptsAllVoidStages
             {
                 UnityEngine.Object.DestroyImmediate(strafeIdley);
             }
-            Debug.Log("underwaterLemurianMaster exists here? " + underwaterLemurianMaster != null);
         }
     }
 }

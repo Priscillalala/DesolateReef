@@ -116,23 +116,6 @@ namespace CorruptsAllVoidStages
             }
             #endregion
             #region terrain
-            /*matVoidTerrainNew = new Material(Addressables.LoadAssetAsync<Material>("RoR2/DLC1/voidstage/matVoidTerrain.mat").WaitForCompletion());
-            matVoidTerrainNew.SetTexture("_RedChannelTopTex", Addressables.LoadAssetAsync<Texture>("RoR2/Base/Common/Props/texSand1.png").WaitForCompletion());
-            matVoidTerrainNew.SetTextureScale("_RedChannelTopTex", new Vector2(2f, 2f));
-            matVoidTerrainNew.SetFloat("_RedChannelBias", 2.45f);
-            matVoidTerrainNew.SetFloat("_GreenChannelBias", 0.037f);*/
-
-            /*matVoidMetalOvergrown = new Material(Addressables.LoadAssetAsync<Material>("RoR2/DLC1/voidstage/matVoidMetalTrimGrassyVertexColorsOnly.mat").WaitForCompletion());
-            matVoidMetalOvergrown.SetColor("_Color", new Color32(155, 155, 155, 255));
-            matVoidMetalOvergrown.SetFloat("_SpecularStrength", 0.06365327f);
-            matVoidMetalOvergrown.SetFloat("_SpecularExponent", 0.7722783f);
-            matVoidMetalOvergrown.SetTexture("_SnowTex", Addressables.LoadAssetAsync<Texture>("RoR2/Base/Common/Props/texSand1.png").WaitForCompletion());
-            matVoidMetalOvergrown.SetFloat("_SnowBias", 0.05808783f);
-            matVoidMetalOvergrown.SetFloat("_Depth", 0.5279048f);
-            matVoidMetalOvergrown.EnableKeyword("DIRTON");
-            matVoidMetalOvergrown.SetTexture("_DirtTex", Addressables.LoadAssetAsync<Texture>("RoR2/DLC1/voidstage/texVoidMoss.tga").WaitForCompletion());
-            matVoidMetalOvergrown.SetFloat("_DirtBias", 0.5306497f);*/
-
             matVoidOverhangNew = new Material(Addressables.LoadAssetAsync<Material>("RoR2/DLC1/voidstage/matVoidOverhang.mat").WaitForCompletion());
             matVoidOverhangNew.SetTexture("_SnowTex", Addressables.LoadAssetAsync<Texture>("RoR2/Base/Common/Props/texSand1.png").WaitForCompletion());
 
@@ -140,22 +123,6 @@ namespace CorruptsAllVoidStages
             matVoidCrystalNew.SetColor("_Color", Color.white);
             matVoidCrystalNew.SetTexture("_MainTex", Addressables.LoadAssetAsync<Texture>("RoR2/DLC1/sulfurpools/texSPCoralEmi.png").WaitForCompletion());
             matVoidCrystalNew.SetFloat("_RampInfo", 0);
-
-            /*voidCoralLit = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/sulfurpools/SPCoralMDLit.prefab").WaitForCompletion(), "VoidCoralLit", false);
-            Light light = voidCoralLit.GetComponentInChildren<Light>();
-            if (light)
-            {
-                light.intensity = 3.5f;
-            }
-            voidCoralLit.transform.Find("meshSPCoralString")?.gameObject.SetActive(false);
-            if (voidCoralLit.TryGetComponent(out MeshRenderer meshRenderer))
-            {
-                meshRenderer.sharedMaterial = new Material(meshRenderer.sharedMaterial);
-                meshRenderer.sharedMaterial.SetFloat("_EmPower", 0.5f);
-                meshRenderer.sharedMaterial.SetColor("_Color", Color.white);
-                meshRenderer.sharedMaterial.SetTexture("_MainTex", Addressables.LoadAssetAsync<Texture>("RoR2/DLC1/Common/ColorRamps/texRampVoidFlatCoral.png").WaitForCompletion());
-                meshRenderer.sharedMaterial.SetTexture("_BlueChannelTex", Addressables.LoadAssetAsync<Texture>("RoR2/DLC1/voidstage/texVoidMoss.tga").WaitForCompletion());
-            }*/
             #endregion
             ExpansionDef DLC1 = Addressables.LoadAssetAsync<ExpansionDef>("RoR2/DLC1/Common/DLC1.asset").WaitForCompletion();
             #region dccsMonsters
@@ -911,20 +878,12 @@ namespace CorruptsAllVoidStages
 
         public void Apply(Scene voidStage)
         {
-            /*for (int i = 0; i < voidStage.rootCount; i++)
-            {
-                Debug.Log(voidStage.GetRootGameObjects()[i].name);
-            }
-            Debug.Log(GameObject.Find("/LogPickup") != null);*/
             Physics.gravity = Vector3.down * 20f;
             Dictionary<string, GameObject> rootObjects = voidStage.GetRootGameObjects().ToDictionary(x => x.name);
-            //GameObject sceneInfo = GameObject.Find("/SceneInfo");
             if (rootObjects.TryGetValue("SceneInfo", out GameObject sceneInfo))
             {
                 if (sceneInfo.TryGetComponent(out ClassicStageInfo classicStageInfo))
                 {
-                    //classicStageInfo.interactableDccsPool = Addressables.LoadAssetAsync<DccsPool>("RoR2/Base/blackbeach/dpBlackBeachInteractables.asset").WaitForCompletion();
-                    //classicStageInfo.monsterDccsPool = Addressables.LoadAssetAsync<DccsPool>("RoR2/Base/blackbeach/dpBlackBeachMonsters.asset").WaitForCompletion();
                     classicStageInfo.monsterDccsPool = dpMonsters;
                     classicStageInfo.interactableDccsPool = dpInteractables;
                     classicStageInfo.sceneDirectorInteractibleCredits = 280;
@@ -934,7 +893,6 @@ namespace CorruptsAllVoidStages
                 }
                 if (sceneInfo.TryGetComponent(out AkAmbient ambient))
                 {
-                    //ambient.data.ObjectReference = Addressables.LoadAssetAsync<WwiseObjectReference>("Wwise/26967A93-FF27-4D90-A29F-5564145B1EF5.asset").WaitForCompletion();
                     ambient.data.ObjectReference = Addressables.LoadAssetAsync<WwiseObjectReference>("Wwise/3CC8F911-9CA7-416B-A6E9-9748E4CEA659.asset").WaitForCompletion();
                 }
             }
@@ -948,7 +906,6 @@ namespace CorruptsAllVoidStages
                 {
                     objectiveProvider.enabled = false;
                 }
-                //UnityEngine.Object.Destroy(missionController);
             }
             if (rootObjects.TryGetValue("Director", out GameObject director))
             {
@@ -962,7 +919,6 @@ namespace CorruptsAllVoidStages
                 }
             }
             Material matVoidCrystal = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/voidstage/matVoidCrystal.mat").WaitForCompletion();
-            //GameObject terrain = GameObject.Find("/HOLDER: Terrain");
             if (rootObjects.TryGetValue("HOLDER: Terrain", out GameObject terrain))
             {
                 if (terrain.transform.TryFind("OLDTERRAIN", out Transform oldTerrain))
@@ -1007,10 +963,6 @@ namespace CorruptsAllVoidStages
                     {
                         voidCenterStatue.gameObject.SetActive(true);
                     }
-                    /*if (oldTerrain.transform.TryFind("meshVoidShrine", out Transform voidShrine))
-                    {
-                        voidShrine.gameObject.SetActive(true);
-                    }*/
                     if (oldTerrain.transform.TryFind("meshVoidCenterStatue (1)", out Transform voidCenterStatue1))
                     {
                         voidCenterStatue1.gameObject.SetActive(true);
@@ -1115,11 +1067,8 @@ namespace CorruptsAllVoidStages
                     }
                 }
             }
-            //GameObject weather = GameObject.Find("/Weather, Void Stage");
             if (rootObjects.TryGetValue("Weather, Void Stage", out GameObject weather))
             {
-                //weather.transform.Find("HOLDER: FX/Blackhole")?.gameObject.SetActive(false);
-                //weather.transform.Find("HOLDER: FX/Skybox Sphere")?.gameObject.SetActive(false);
                 weather.transform.Find("HOLDER: FX")?.gameObject.SetActive(false);
                 weather.transform.Find("HOLDER: Cloud Floor")?.gameObject.SetActive(false);
                 if (weather.transform.TryFind("HOLDER: Skybox Kelp Trees", out Transform kelp))
@@ -1129,11 +1078,6 @@ namespace CorruptsAllVoidStages
                     kelp.transform.localEulerAngles = new Vector3(0, 340, 90);
                     kelp.transform.localScale = Vector3.one * 2f;
                 }
-                /*if (weather.transform.TryFind("HOLDER: Cloud Floor/Point Light (2)", out Transform light))
-                {
-                    light.gameObject.SetActive(true);
-                    light.GetComponent<Light>().intensity = 1;
-                }*/
                 if (weather.transform.TryFind("HOLDER: Lights/PP + Amb", out Transform postProcessing))
                 {
                     if (postProcessing.TryGetComponent(out PostProcessVolume postProcessVolume))
@@ -1156,8 +1100,6 @@ namespace CorruptsAllVoidStages
                     directionalLight.localEulerAngles = new Vector3(50f, 90f, 120f);
                 }
             }
-            //GameObject.Find("/HOLDER: Props")?.SetActive(false);
-            //GameObject.Find("/HOLDER: AsteroidField")?.SetActive(false);
             if (rootObjects.TryGetValue("HOLDER: Props", out GameObject props))
             {
                 props.SetActive(false);
@@ -1170,14 +1112,6 @@ namespace CorruptsAllVoidStages
             {
                 UnityEngine.Object.Destroy(logPickup);
             }
-            /*GameObject missionController = GameObject.Find("MissionController");
-            if (missionController)
-            {
-                Debug.Log("Found misson controller!");
-                missionController.SetActive(false);
-                //UnityEngine.Object.DestroyImmediate(missionController);
-            }*/
-            //GameObject geysers = GameObject.Find("/HOLDER: Geysers");
             if (rootObjects.TryGetValue("HOLDER: Geysers", out GameObject geysers))
             {
                 GameObject geyserPrefab = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Common/Props/Geyser.prefab").WaitForCompletion();
@@ -1231,7 +1165,6 @@ namespace CorruptsAllVoidStages
                         newJumpVolume.time = 2.63f;
                     }
                 }
-                
             }
 
             static void InstantiateCoral(Vector3 position, Vector3 eulerAngles)
@@ -1252,7 +1185,6 @@ namespace CorruptsAllVoidStages
 
         public void OnPrePopulateSceneServer(SceneDirector sceneDirector)
         {
-            //sceneDirector.teleporterSpawnCard = Addressables.LoadAssetAsync<SpawnCard>("RoR2/Base/Teleporters/iscTeleporter.asset").WaitForCompletion();
             NodeGraph groundNodes = SceneInfo.instance.groundNodes;
             for (int i = 0; i < groundNodes.nodes.Length; i++)
             {
