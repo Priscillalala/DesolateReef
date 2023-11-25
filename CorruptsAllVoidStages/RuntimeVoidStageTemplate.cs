@@ -968,32 +968,59 @@ namespace CorruptsAllVoidStages
                     }
                     if (revampedTerrain.transform.TryFind("Islands", out Transform islands))
                     {
-                        islands.transform.Find("mdlVoidStageIslandMainCore/mdlVoidTerrainMain/mdlVoidMetalSpiralWalkway")?.gameObject.SetActive(false);
+                        if (islands.transform.TryFind("mdlVoidStageIslandMainCore", out Transform mdlVoidStageIslandMainCore))
+                        {
+                            mdlVoidStageIslandMainCore.Find("mdlVoidTerrainMain/mdlVoidMetalSpiralWalkway")?.gameObject.SetActive(false);
+                            if (mdlVoidStageIslandMainCore.TryFind("mdlVoidTerrainMain/Props/Grass", out Transform grass))
+                            {
+                                Dictionary<string, Transform[]> grassLookup = grass.AllChildren().GroupBy(x => x.name).ToDictionary(x => x.Key, x => x.ToArray());
+                                if (grassLookup.TryGetValue("VoidTallGrassTrio", out Transform[] voidTallGrassTrios))
+                                {
+                                    Transform voidTallGrassTrio0 = ArrayUtils.GetSafe(voidTallGrassTrios, 0);
+                                    if (voidTallGrassTrio0)
+                                    {
+                                        voidTallGrassTrio0.localPosition = new Vector3(-72.52216f, -52.52829f, 34.37896f);
+                                    }
+                                }
+                                if (grassLookup.TryGetValue("VoidTallGrassPair", out Transform[] voidTallGrassPairs))
+                                {
+                                    Transform voidTallGrassPair2 = ArrayUtils.GetSafe(voidTallGrassPairs, 2);
+                                    if (voidTallGrassPair2)
+                                    {
+                                        voidTallGrassPair2.localPosition = new Vector3(-115.0809f, -82.26335f, 40f);
+                                    }
+                                }
+                                if (grass.TryFind("VoidTallGrass", out Transform voidTallGrass))
+                                {
+                                    UnityEngine.Object.Instantiate(voidTallGrass.gameObject, new Vector3(-175, 28, -33), Quaternion.Euler(new Vector3(270, 0, 0)));
+                                }
+                            }
+                        }
                         if (islands.transform.TryFind("mdlVoidStageIslandNE", out Transform mdlVoidStageIslandNE))
                         {
-                            mdlVoidStageIslandNE.transform.Find("mdlVoidTerrainNE/mdlVoidSupportPlatformFloating")?.gameObject.SetActive(false);
-                            mdlVoidStageIslandNE.transform.Find("mdlVoidTerrainNE/mdlVoidSupportPlatform.002/mdlVoidRepairsPlatformWalls.001")?.gameObject.SetActive(false);
-                            mdlVoidStageIslandNE.transform.Find("mdlVoidTerrainNE/mdlGravityBoostPath.001")?.gameObject.SetActive(false);
-                            mdlVoidStageIslandNE.transform.Find("mdlVoidTerrainNE/mdlGravityCollarGenericBase.001")?.gameObject.SetActive(false);
+                            mdlVoidStageIslandNE.Find("mdlVoidTerrainNE/mdlVoidSupportPlatformFloating")?.gameObject.SetActive(false);
+                            mdlVoidStageIslandNE.Find("mdlVoidTerrainNE/mdlVoidSupportPlatform.002/mdlVoidRepairsPlatformWalls.001")?.gameObject.SetActive(false);
+                            mdlVoidStageIslandNE.Find("mdlVoidTerrainNE/mdlGravityBoostPath.001")?.gameObject.SetActive(false);
+                            mdlVoidStageIslandNE.Find("mdlVoidTerrainNE/mdlGravityCollarGenericBase.001")?.gameObject.SetActive(false);
                         }
                         if (islands.transform.TryFind("mdlVoidStageIslandSE", out Transform mdlVoidStageIslandSE))
                         {
-                            mdlVoidStageIslandSE.transform.Find("mdlVoidTerrainSE/mdlVoidArchEntry")?.gameObject.SetActive(false);
-                            mdlVoidStageIslandSE.transform.Find("mdlVoidTerrainSE/mdlVoidRepairsPlatform")?.gameObject.SetActive(false);
+                            mdlVoidStageIslandSE.Find("mdlVoidTerrainSE/mdlVoidArchEntry")?.gameObject.SetActive(false);
+                            mdlVoidStageIslandSE.Find("mdlVoidTerrainSE/mdlVoidRepairsPlatform")?.gameObject.SetActive(false);
                         }
                         if (islands.transform.TryFind("mdlVoidStageIslandNW", out Transform mdlVoidStageIslandNW))
                         {
-                            mdlVoidStageIslandNW.transform.Find("mdlVoidTerrainNW/mdlGravityCollarGenericBase")?.gameObject.SetActive(false);
+                            mdlVoidStageIslandNW.Find("mdlVoidTerrainNW/mdlGravityCollarGenericBase")?.gameObject.SetActive(false);
                         }
                         if (islands.transform.TryFind("mdlVoidStageIslandEastSmall", out Transform mdlVoidStageIslandEastSmall))
                         {
-                            mdlVoidStageIslandEastSmall.transform.Find("mdlGravityShrineEnd")?.gameObject.SetActive(false);
+                            mdlVoidStageIslandEastSmall.Find("mdlGravityShrineEnd")?.gameObject.SetActive(false);
                         }
                         if (islands.transform.TryFind("mdlVoidStageIslandSouthSmall", out Transform mdlVoidStageIslandSouthSmall))
                         {
-                            mdlVoidStageIslandSouthSmall.transform.Find("mdlVoidTerrainSouthSmall/mdlVoidSupportPlatform/Point Light Void Support Platform")?.gameObject.SetActive(false);
-                            mdlVoidStageIslandSouthSmall.transform.Find("mdlVoidTerrainSouthSmall/mdlVoidSupportPlatform/Point Light Void Support Platform (1)")?.gameObject.SetActive(false);
-                            mdlVoidStageIslandSouthSmall.transform.Find("mdlVoidTerrainSouthSmall/mdlVoidSupportPlatform.001")?.gameObject.SetActive(false);
+                            mdlVoidStageIslandSouthSmall.Find("mdlVoidTerrainSouthSmall/mdlVoidSupportPlatform/Point Light Void Support Platform")?.gameObject.SetActive(false);
+                            mdlVoidStageIslandSouthSmall.Find("mdlVoidTerrainSouthSmall/mdlVoidSupportPlatform/Point Light Void Support Platform (1)")?.gameObject.SetActive(false);
+                            mdlVoidStageIslandSouthSmall.Find("mdlVoidTerrainSouthSmall/mdlVoidSupportPlatform.001")?.gameObject.SetActive(false);
                         }
                     }
                 }

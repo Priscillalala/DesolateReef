@@ -26,12 +26,7 @@ namespace CorruptsAllVoidStages
             }
         }
 
-        public static TaskAwaiter<TObject> GetAwaiter<TObject>(this AsyncOperationHandle<TObject> handle)
-        {
-            return handle.Task.GetAwaiter();
-        }
-
-        [ConCommand(commandName = "calculate_jump_velocity")]
+        /*[ConCommand(commandName = "calculate_jump_velocity")]
         public static void CCCalculateJumpVelocity(ConCommandArgs args)
         {
             Vector3 startPosition = new Vector3(args.GetArgFloat(0), args.GetArgFloat(1), args.GetArgFloat(2));
@@ -84,6 +79,6 @@ namespace CorruptsAllVoidStages
             Debug.Log("scalar_x: " + scalar_x);
             jumpVelocity = new Vector3(scalar_x * a, startToEnd_y.vel_0, scalar_x * b);
             time = startToEnd_x.time;
-        }
+        }*/
     }
 }

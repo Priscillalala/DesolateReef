@@ -94,7 +94,6 @@ namespace CorruptsAllVoidStages
 
             while (!groupOp.IsDone)
             {
-                Logger.LogInfo("Loading progress: " + groupOp.PercentComplete);
                 args.ReportProgress(groupOp.PercentComplete);
                 yield return null;
             }
@@ -264,6 +263,12 @@ namespace CorruptsAllVoidStages
                     cornerA = new Vector3(-112.1319f, 20.08289f, 201f),
                     cornerB = new Vector3(-140.7579f, 28f, 217f),
                 },
+                // out in front of a gesyer
+                new SimpleSphereZone
+                {
+                    center = new Vector3(157.7814f, 6.52061f, -173.4296f),
+                    radius = 4,
+                },
             };
             IZone[] disabledAirNodeZones = new IZone[]
             {
@@ -309,8 +314,6 @@ namespace CorruptsAllVoidStages
             voidstage.Result.previewTexture = (texDesolateReefPreview.asset as Sprite).texture;
             voidstage.Result.portalMaterial = new Material(matBazaarSeerGolemplains.Result);
             voidstage.Result.portalMaterial.SetTexture("_MainTex", (texDesolateReefSeerPreview.asset as Sprite).texture);
-
-            //groupOp.Release();
 
             desolateReefAssets.assetBundle.Unload(false);
 
