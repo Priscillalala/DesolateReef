@@ -46,7 +46,7 @@ namespace CorruptsAllVoidStages
                 {
                     center = new Vector2(2.425146f, -12.55224f),
                     height = new RangeFloat { min = 37.74302f, max = 130f },
-                    radius = 50f,
+                    radius = 100f,
                 },
                 // random nodes under spirals
                 new SimpleSphereZone
@@ -63,7 +63,7 @@ namespace CorruptsAllVoidStages
                 new SimpleBoxZone
                 {
                     cornerA = new Vector3(-30f, 22f, 214f),
-                    cornerB = new Vector3(-220.7236f, 42.97554f, 247.8934f),
+                    cornerB = new Vector3(-220.7236f, 42.97554f, 400f),
                 },
                 // part of the top section is fake
                 new SimpleRadialZone
@@ -77,6 +77,12 @@ namespace CorruptsAllVoidStages
                 {
                     center = new Vector3(-111.0189f, 19.61561f, 197.9515f),
                     radius = 4,
+                },
+                // leading to top section
+                new SimpleBoxZone
+                {
+                    cornerA = new Vector3(-112.1319f, 20.08289f, 201f),
+                    cornerB = new Vector3(-140.7579f, 28f, 217f),
                 },
             };
             disabledAirNodeZones = new IZone[]
@@ -100,7 +106,32 @@ namespace CorruptsAllVoidStages
                     radius = 15,
                 },
             };
-            #endregion 
+            NodeGraph groundNodes = Addressables.LoadAssetAsync<NodeGraph>("RoR2/DLC1/voidstage/voidstage_GroundNodeGraph.asset").WaitForCompletion();
+            byte disabledGroundeNodeGateIndex = groundNodes.RegisterGateName("groovesalad.disabledNodes");
+            Debug.Log("disabledGroundeNodeGateIndex:" + disabledGroundeNodeGateIndex);
+            for (int i = 0; i < groundNodes.nodes.Length; i++)
+            {
+                Vector3 position = groundNodes.nodes[i].position;
+                if (disabledGroundNodeZones.Any(x => x.IsInBounds(position)))
+                {
+                    groundNodes.nodes[i].gateIndex = disabledGroundeNodeGateIndex;
+                    GameObject.CreatePrimitive(PrimitiveType.Sphere).transform.position = position;
+                }
+            }
+            NodeGraph airNodes = Addressables.LoadAssetAsync<NodeGraph>("RoR2/DLC1/voidstage/voidstage_AirNodeGraph.asset").WaitForCompletion();
+            byte disabledAirNodeGateIndex = airNodes.RegisterGateName("groovesalad.disabledNodes");
+            Debug.Log("disabledAirNodeGateIndex:" + disabledAirNodeGateIndex);
+            for (int i = 0; i < airNodes.nodes.Length; i++)
+            {
+                Vector3 position = airNodes.nodes[i].position;
+                if (disabledAirNodeZones.Any(x => x.IsInBounds(position)))
+                {
+                    airNodes.nodes[i].gateIndex = disabledAirNodeGateIndex;
+                    GameObject.CreatePrimitive(PrimitiveType.Sphere).transform.position = position;
+                }
+            }
+
+            #endregion
             #region postprocessing
             PostProcessProfile ppSceneVoidStage = Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/DLC1/Common/Void/ppSceneVoidStage.asset").WaitForCompletion();
             ppSceneVoidStageNew = ScriptableObject.CreateInstance<PostProcessProfile>();
@@ -887,14 +918,18 @@ namespace CorruptsAllVoidStages
         public void Apply(Scene voidStage)
         {
             Physics.gravity = Vector3.down * 20f;
-            Dictionary<string, GameObject> rootObjects = voidStage.GetRootGameObjects().ToDictionary(x => x.name);
+            Dictionary<string, GameObject> rootObjects = new Dictionary<string, GameObject>();
+            foreach (GameObject rootObject in voidStage.GetRootGameObjects())
+            {
+                rootObjects[rootObject.name] = rootObject;
+            }
             if (rootObjects.TryGetValue("SceneInfo", out GameObject sceneInfo))
             {
                 if (sceneInfo.TryGetComponent(out ClassicStageInfo classicStageInfo))
                 {
                     classicStageInfo.monsterDccsPool = dpMonsters;
                     classicStageInfo.interactableDccsPool = dpInteractables;
-                    classicStageInfo.sceneDirectorInteractibleCredits = 280;
+                    classicStageInfo.sceneDirectorInteractibleCredits = 9999;
                     classicStageInfo.sceneDirectorMonsterCredits = 100;
                     classicStageInfo.monsterCategories = dccsMonsters;
                     classicStageInfo.interactableCategories = dccsInteractables;
@@ -1199,7 +1234,8 @@ namespace CorruptsAllVoidStages
                 Vector3 position = groundNodes.nodes[i].position;
                 if (disabledGroundNodeZones.Any(x => x.IsInBounds(position)))
                 {
-                    DirectorCore.instance.AddOccupiedNode(groundNodes, new NodeGraph.NodeIndex(i));
+                    Debug.Log("Is open? " + groundNodes.IsGateOpen(groundNodes.gateNames[groundNodes.nodes[i].gateIndex]));
+                    //DirectorCore.instance.AddOccupiedNode(groundNodes, new NodeGraph.NodeIndex(i));
                     //GameObject.CreatePrimitive(PrimitiveType.Sphere).transform.position = position;
                 }
             }
@@ -1209,7 +1245,7 @@ namespace CorruptsAllVoidStages
                 Vector3 position = airNodes.nodes[i].position;
                 if (disabledAirNodeZones.Any(x => x.IsInBounds(position)))
                 {
-                    DirectorCore.instance.AddOccupiedNode(airNodes, new NodeGraph.NodeIndex(i));
+                    //DirectorCore.instance.AddOccupiedNode(airNodes, new NodeGraph.NodeIndex(i));
                     //GameObject.CreatePrimitive(PrimitiveType.Sphere).transform.position = position;
                 }
             }
