@@ -18,8 +18,6 @@ namespace CorruptsAllVoidStages
 {
     public class RuntimeVoidStageTemplate
     {
-        //public IZone[] disabledGroundNodeZones;
-        //public IZone[] disabledAirNodeZones;
         public PostProcessProfile ppSceneVoidStageNew;
         public Material matVoidOverhangNew;
         public Material matVoidCrystalNew;
@@ -32,117 +30,6 @@ namespace CorruptsAllVoidStages
 
         public RuntimeVoidStageTemplate(Scene voidStage)
         {
-            #region nodes
-            /*disabledGroundNodeZones = new IZone[]
-            {
-                // first stairs section
-                new SimpleBoxZone
-                {
-                    cornerA = new Vector3(-45, 29, -26),
-                    cornerB = new Vector3(45, 68, -95),
-                },
-                // rest of stairs
-                new SimpleRadialZone
-                {
-                    center = new Vector2(2.425146f, -12.55224f),
-                    height = new RangeFloat { min = 37.74302f, max = 130f },
-                    radius = 100f,
-                },
-                // random nodes under spirals
-                new SimpleSphereZone
-                {
-                    center = new Vector3(31.51681f, 9.069029f, -83.28874f),
-                    radius = 4,
-                },
-                new SimpleSphereZone
-                {
-                    center = new Vector3(-54.34208f, -3.969529f, 27.88097f),
-                    radius = 4,
-                },
-                // top section of island with platform removed
-                new SimpleBoxZone
-                {
-                    cornerA = new Vector3(-30f, 22f, 214f),
-                    cornerB = new Vector3(-220.7236f, 42.97554f, 400f),
-                },
-                // part of the top section is fake
-                new SimpleRadialZone
-                {
-                    center = new Vector2(-184, 209),
-                    height = new RangeFloat { min = 25f, max = 50f },
-                    radius = 15f,
-                },
-                // random node that used to be on platform
-                new SimpleSphereZone
-                {
-                    center = new Vector3(-111.0189f, 19.61561f, 197.9515f),
-                    radius = 4,
-                },
-                // leading to top section
-                new SimpleBoxZone
-                {
-                    cornerA = new Vector3(-112.1319f, 20.08289f, 201f),
-                    cornerB = new Vector3(-140.7579f, 28f, 217f),
-                },
-            };
-            disabledAirNodeZones = new IZone[]
-            {
-                // rough estimate of air tunnel
-                new SimpleBoxZone
-                {
-                    cornerA = new Vector3(-274.8925f, 142.8943f, 129.8717f),
-                    cornerB = new Vector3(-52.02304f, 103.5345f, -60.19645f),
-                },
-                // nodes inside lower spiral
-                new SimpleBoxZone
-                {
-                    cornerA = new Vector3(-63.34568f, 42.65285f, 72.64758f),
-                    cornerB = new Vector3(43.69559f, 4.374349f, 44.70821f),
-                },
-                // nodes inside middle spiral
-                new SimpleSphereZone
-                {
-                    center = new Vector3(48.7455f, 23.94464f, -70.06884f),
-                    radius = 15,
-                },
-            };
-            NodeGraph groundNodes = Addressables.LoadAssetAsync<NodeGraph>("RoR2/DLC1/voidstage/voidstage_GroundNodeGraph.asset").WaitForCompletion();
-            byte disabledGroundeNodeGateIndex = groundNodes.RegisterGateName("groovesalad.disabledNodes");
-            for (int i = 0; i < groundNodes.nodes.Length; i++)
-            {
-                Vector3 position = groundNodes.nodes[i].position;
-                if (disabledGroundNodeZones.Any(x => x.IsInBounds(position)))
-                {
-                    groundNodes.nodes[i].gateIndex = disabledGroundeNodeGateIndex;
-                }
-            }
-            NodeGraph airNodes = Addressables.LoadAssetAsync<NodeGraph>("RoR2/DLC1/voidstage/voidstage_AirNodeGraph.asset").WaitForCompletion();
-            byte disabledAirNodeGateIndex = airNodes.RegisterGateName("groovesalad.disabledNodes");
-            for (int i = 0; i < airNodes.nodes.Length; i++)
-            {
-                Vector3 position = airNodes.nodes[i].position;
-                if (disabledAirNodeZones.Any(x => x.IsInBounds(position)))
-                {
-                    airNodes.nodes[i].gateIndex = disabledAirNodeGateIndex;
-                }
-            }*/
-            /*NodeGraph groundNodes = Addressables.LoadAssetAsync<NodeGraph>("RoR2/DLC1/voidstage/voidstage_GroundNodeGraph.asset").WaitForCompletion();
-            Debug.Log("gate count: " + groundNodes.gateNames.Count);
-
-            for (int i = 0; i < groundNodes.nodes.Length; i++)
-            {
-                byte gateIndex = groundNodes.nodes[i].gateIndex;
-                if (groundNodes.gateNames[gateIndex] == "groovesalad.disabledNodes")
-                {
-                    Debug.Log("Found!");
-                }
-                if (!groundNodes.openGates[gateIndex])
-                {
-                    GameObject.CreatePrimitive(PrimitiveType.Sphere).transform.position = groundNodes.nodes[i].position;
-                }
-            }*/
-
-            #endregion
             #region postprocessing
             PostProcessProfile ppSceneVoidStage = Addressables.LoadAssetAsync<PostProcessProfile>("RoR2/DLC1/Common/Void/ppSceneVoidStage.asset").WaitForCompletion();
             ppSceneVoidStageNew = ScriptableObject.CreateInstance<PostProcessProfile>();
@@ -1236,30 +1123,5 @@ namespace CorruptsAllVoidStages
             InstantiateCoral(new Vector3(54f, 14f, -235f), new Vector3(270, 0, 0));
             InstantiateCoral(new Vector3(61f, 7.1f, -98f), new Vector3(270, 90, 0));
         }
-
-        /*public void OnPrePopulateSceneServer(SceneDirector sceneDirector)
-        {
-            NodeGraph groundNodes = SceneInfo.instance.groundNodes;
-            for (int i = 0; i < groundNodes.nodes.Length; i++)
-            {
-                Vector3 position = groundNodes.nodes[i].position;
-                if (disabledGroundNodeZones.Any(x => x.IsInBounds(position)))
-                {
-                    Debug.Log("Is open? " + groundNodes.IsGateOpen(groundNodes.gateNames[groundNodes.nodes[i].gateIndex]));
-                    //DirectorCore.instance.AddOccupiedNode(groundNodes, new NodeGraph.NodeIndex(i));
-                    //GameObject.CreatePrimitive(PrimitiveType.Sphere).transform.position = position;
-                }
-            }
-            NodeGraph airNodes = SceneInfo.instance.airNodes;
-            for (int i = 0; i < airNodes.nodes.Length; i++)
-            {
-                Vector3 position = airNodes.nodes[i].position;
-                if (disabledAirNodeZones.Any(x => x.IsInBounds(position)))
-                {
-                    //DirectorCore.instance.AddOccupiedNode(airNodes, new NodeGraph.NodeIndex(i));
-                    //GameObject.CreatePrimitive(PrimitiveType.Sphere).transform.position = position;
-                }
-            }
-        }*/
     }
 }

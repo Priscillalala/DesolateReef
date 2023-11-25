@@ -380,39 +380,3 @@ namespace CorruptsAllVoidStages
         }
     }
 }
-/*var entitlementDLC1 = Addressables.LoadAssetAsync<EntitlementDef>("RoR2/DLC1/Common/entitlementDLC1.asset");
-            var voidStage = Addressables.LoadAssetAsync<SceneDef>("RoR2/DLC1/voidstage/voidstage.asset");
-            var sgStage2 = Addressables.LoadAssetAsync<SceneCollection>("RoR2/Base/SceneGroups/sgStage2.asset");
-            var sgStage3 = Addressables.LoadAssetAsync<SceneCollection>("RoR2/Base/SceneGroups/sgStage3.asset");
-            var soundlessDepths = Addressables.LoadAssetAsync<MusicTrackDef>("RoR2/DLC1/Common/muGameplayDLC1_06.asset");
-            var thermodynamicEquilibrium = Addressables.LoadAssetAsync<MusicTrackDef>("RoR2/Base/Common/muSong05.asset");
-            var matBazaarSeerGolemplains = Addressables.LoadAssetAsync<Material>("RoR2/Base/bazaar/matBazaarSeerGolemplains.mat");
-            var matVoidTerrain = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/voidstage/matVoidTerrain.mat");
-            var texSand1 = Addressables.LoadAssetAsync<Texture>("RoR2/Base/Common/Props/texSand1.png");
-            var matVoidMetalTrimGrassyVertexColorsOnly = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/voidstage/matVoidMetalTrimGrassyVertexColorsOnly.mat");
-            var texVoidMoss = Addressables.LoadAssetAsync<Texture>("RoR2/DLC1/voidstage/texVoidMoss.tga");
-            var SPCoralMDLit = Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/sulfurpools/SPCoralMDLit.prefab");
-            var texRampVoidFlatCoral = Addressables.LoadAssetAsync<Texture>("RoR2/DLC1/Common/ColorRamps/texRampVoidFlatCoral.png");
-            var VoidStageDiorama = Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/voidstage/VoidStageDiorama.prefab");
-            var matVoidTrim = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/voidstage/matVoidTrim.mat");
-            var LemurianMaster = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Lemurian/LemurianMaster.prefab");
-            var voidstage_GroundNodeGraph = Addressables.LoadAssetAsync<NodeGraph>("RoR2/DLC1/voidstage/voidstage_GroundNodeGraph.asset");
-            var voidstage_AirNodeGraph = Addressables.LoadAssetAsync<NodeGraph>("RoR2/DLC1/voidstage/voidstage_AirNodeGraph.asset");*/
-/*entitlementDLC1.Release();
-voidStage.Release();
-sgStage2.Release();
-sgStage3.Release();
-soundlessDepths.Release();
-thermodynamicEquilibrium.Release();
-matBazaarSeerGolemplains.Release();
-matVoidTerrain.Release();
-texSand1.Release();
-matVoidMetalTrimGrassyVertexColorsOnly.Release();
-texVoidMoss.Release();
-SPCoralMDLit.Release();
-texRampVoidFlatCoral.Release();
-VoidStageDiorama.Release();
-matVoidTrim.Release();
-LemurianMaster.Release();
-voidstage_GroundNodeGraph.Release();
-voidstage_AirNodeGraph.Release();*/
