@@ -18,8 +18,8 @@ namespace CorruptsAllVoidStages
 {
     public class RuntimeVoidStageTemplate
     {
-        public IZone[] disabledGroundNodeZones;
-        public IZone[] disabledAirNodeZones;
+        //public IZone[] disabledGroundNodeZones;
+        //public IZone[] disabledAirNodeZones;
         public PostProcessProfile ppSceneVoidStageNew;
         public Material matVoidOverhangNew;
         public Material matVoidCrystalNew;
@@ -33,7 +33,7 @@ namespace CorruptsAllVoidStages
         public RuntimeVoidStageTemplate(Scene voidStage)
         {
             #region nodes
-            disabledGroundNodeZones = new IZone[]
+            /*disabledGroundNodeZones = new IZone[]
             {
                 // first stairs section
                 new SimpleBoxZone
@@ -108,28 +108,39 @@ namespace CorruptsAllVoidStages
             };
             NodeGraph groundNodes = Addressables.LoadAssetAsync<NodeGraph>("RoR2/DLC1/voidstage/voidstage_GroundNodeGraph.asset").WaitForCompletion();
             byte disabledGroundeNodeGateIndex = groundNodes.RegisterGateName("groovesalad.disabledNodes");
-            Debug.Log("disabledGroundeNodeGateIndex:" + disabledGroundeNodeGateIndex);
             for (int i = 0; i < groundNodes.nodes.Length; i++)
             {
                 Vector3 position = groundNodes.nodes[i].position;
                 if (disabledGroundNodeZones.Any(x => x.IsInBounds(position)))
                 {
                     groundNodes.nodes[i].gateIndex = disabledGroundeNodeGateIndex;
-                    GameObject.CreatePrimitive(PrimitiveType.Sphere).transform.position = position;
                 }
             }
             NodeGraph airNodes = Addressables.LoadAssetAsync<NodeGraph>("RoR2/DLC1/voidstage/voidstage_AirNodeGraph.asset").WaitForCompletion();
             byte disabledAirNodeGateIndex = airNodes.RegisterGateName("groovesalad.disabledNodes");
-            Debug.Log("disabledAirNodeGateIndex:" + disabledAirNodeGateIndex);
             for (int i = 0; i < airNodes.nodes.Length; i++)
             {
                 Vector3 position = airNodes.nodes[i].position;
                 if (disabledAirNodeZones.Any(x => x.IsInBounds(position)))
                 {
                     airNodes.nodes[i].gateIndex = disabledAirNodeGateIndex;
-                    GameObject.CreatePrimitive(PrimitiveType.Sphere).transform.position = position;
                 }
-            }
+            }*/
+            /*NodeGraph groundNodes = Addressables.LoadAssetAsync<NodeGraph>("RoR2/DLC1/voidstage/voidstage_GroundNodeGraph.asset").WaitForCompletion();
+            Debug.Log("gate count: " + groundNodes.gateNames.Count);
+
+            for (int i = 0; i < groundNodes.nodes.Length; i++)
+            {
+                byte gateIndex = groundNodes.nodes[i].gateIndex;
+                if (groundNodes.gateNames[gateIndex] == "groovesalad.disabledNodes")
+                {
+                    Debug.Log("Found!");
+                }
+                if (!groundNodes.openGates[gateIndex])
+                {
+                    GameObject.CreatePrimitive(PrimitiveType.Sphere).transform.position = groundNodes.nodes[i].position;
+                }
+            }*/
 
             #endregion
             #region postprocessing
@@ -167,7 +178,7 @@ namespace CorruptsAllVoidStages
             #region dccsMonsters
             CharacterSpawnCard cscUnderwaterLemurian = ScriptableObject.CreateInstance<CharacterSpawnCard>();
             cscUnderwaterLemurian.name = "cscUnderwaterLemurian";
-            cscUnderwaterLemurian.prefab = CommonAssets.underwaterLemurianMaster;
+            cscUnderwaterLemurian.prefab = Assets.UnderwaterLemurianMaster;
             cscUnderwaterLemurian.sendOverNetwork = true;
             cscUnderwaterLemurian.hullSize = HullClassification.Human;
             cscUnderwaterLemurian.nodeGraphType = MapNodeGroup.GraphType.Ground;
@@ -929,7 +940,7 @@ namespace CorruptsAllVoidStages
                 {
                     classicStageInfo.monsterDccsPool = dpMonsters;
                     classicStageInfo.interactableDccsPool = dpInteractables;
-                    classicStageInfo.sceneDirectorInteractibleCredits = 9999;
+                    classicStageInfo.sceneDirectorInteractibleCredits = 280;
                     classicStageInfo.sceneDirectorMonsterCredits = 100;
                     classicStageInfo.monsterCategories = dccsMonsters;
                     classicStageInfo.interactableCategories = dccsInteractables;
@@ -1057,11 +1068,11 @@ namespace CorruptsAllVoidStages
                         }
                         else if (meshRenderer.sharedMaterial == matVoidTerrain)
                         {
-                            meshRenderer.sharedMaterial = CommonAssets.matVoidTerrainNew;
+                            meshRenderer.sharedMaterial = Assets.matVoidTerrainNew;
                         }
                         else if (meshRenderer.sharedMaterial == matVoidMetalTrimGrassyVertexColorsOnly)
                         {
-                            meshRenderer.sharedMaterial = CommonAssets.matVoidMetalOvergrown;
+                            meshRenderer.sharedMaterial = Assets.matVoidMetalOvergrown;
                         }
                         else if (meshRenderer.sharedMaterial == matVoidCrystal)
                         {
@@ -1212,7 +1223,7 @@ namespace CorruptsAllVoidStages
 
             static void InstantiateCoral(Vector3 position, Vector3 eulerAngles)
             {
-                GameObject instance = UnityEngine.Object.Instantiate(CommonAssets.voidCoralLit, position, Quaternion.Euler(eulerAngles));
+                GameObject instance = UnityEngine.Object.Instantiate(Assets.VoidCoralLit, position, Quaternion.Euler(eulerAngles));
                 instance.transform.localScale = Vector3.one * 2f;
             }
 
@@ -1226,7 +1237,7 @@ namespace CorruptsAllVoidStages
             InstantiateCoral(new Vector3(61f, 7.1f, -98f), new Vector3(270, 90, 0));
         }
 
-        public void OnPrePopulateSceneServer(SceneDirector sceneDirector)
+        /*public void OnPrePopulateSceneServer(SceneDirector sceneDirector)
         {
             NodeGraph groundNodes = SceneInfo.instance.groundNodes;
             for (int i = 0; i < groundNodes.nodes.Length; i++)
@@ -1249,6 +1260,6 @@ namespace CorruptsAllVoidStages
                     //GameObject.CreatePrimitive(PrimitiveType.Sphere).transform.position = position;
                 }
             }
-        }
+        }*/
     }
 }

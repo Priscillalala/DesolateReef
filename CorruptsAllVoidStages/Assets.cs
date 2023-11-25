@@ -8,15 +8,27 @@ using System.Collections.Generic;
 using R2API;
 using RoR2.CharacterAI;
 using System.Linq;
+using RoR2.ExpansionManagement;
+using RoR2.EntitlementManagement;
 
 namespace CorruptsAllVoidStages
 {
-    public static class CommonAssets
+    public static class Assets
     {
-        public static Material matVoidTerrainNew;
-        public static Material matVoidMetalOvergrown;
-        public static GameObject voidCoralLit;
-        public static GameObject underwaterLemurianMaster;
+        public static ExpansionDef NewVoidStageHiddenExpansion { get; private set; }
+        public static Material matVoidTerrainNew { get; private set; }
+        public static Material matVoidMetalOvergrown { get; private set; }
+        public static GameObject VoidCoralLit { get; private set; }
+        public static GameObject UnderwaterLemurianMaster { get; private set; }
+
+        public static void SetNewVoidStageHiddenExpansion(EntitlementDef entitlementDLC1)
+        {
+            NewVoidStageHiddenExpansion = ScriptableObject.CreateInstance<ExpansionDef>();
+            NewVoidStageHiddenExpansion.name = "groovesalad.NewVoidStageHiddenExpansion";
+            NewVoidStageHiddenExpansion.requiredEntitlement = entitlementDLC1;
+            NewVoidStageHiddenExpansion.nameToken = string.Empty;
+            NewVoidStageHiddenExpansion.descriptionToken = string.Empty;
+        }
 
         public static void SetMatVoidTerrainNew(Material matVoidTerrain, Texture texSand1)
         {
@@ -43,14 +55,15 @@ namespace CorruptsAllVoidStages
 
         public static void SetVoidCoralLit(GameObject SPCoralMDLit, Texture texRampVoidFlatCoral, Texture texVoidMoss)
         {
-            voidCoralLit = PrefabAPI.InstantiateClone(SPCoralMDLit, "VoidCoralLit", false);
-            Light light = voidCoralLit.GetComponentInChildren<Light>();
+            VoidCoralLit = PrefabAPI.InstantiateClone(SPCoralMDLit, "VoidCoralLit", false);
+            Light light = VoidCoralLit.GetComponentInChildren<Light>();
             if (light)
             {
-                light.intensity = 3.5f;
+                light.intensity = 4f;
+                light.range = 15f;
             }
-            voidCoralLit.transform.Find("meshSPCoralString")?.gameObject.SetActive(false);
-            if (voidCoralLit.TryGetComponent(out MeshRenderer meshRenderer))
+            VoidCoralLit.transform.Find("meshSPCoralString")?.gameObject.SetActive(false);
+            if (VoidCoralLit.TryGetComponent(out MeshRenderer meshRenderer))
             {
                 meshRenderer.sharedMaterial = new Material(meshRenderer.sharedMaterial);
                 meshRenderer.sharedMaterial.SetFloat("_EmPower", 0.5f);
@@ -62,8 +75,8 @@ namespace CorruptsAllVoidStages
 
         public static void SetUnderwaterLemurianMaster(GameObject LemurianMaster)
         {
-            underwaterLemurianMaster = PrefabAPI.InstantiateClone(LemurianMaster, "UnderwaterLemurianMaster", true);
-            AISkillDriver[] skillDrivers = underwaterLemurianMaster.GetComponents<AISkillDriver>();
+            UnderwaterLemurianMaster = PrefabAPI.InstantiateClone(LemurianMaster, "UnderwaterLemurianMaster", true);
+            AISkillDriver[] skillDrivers = UnderwaterLemurianMaster.GetComponents<AISkillDriver>();
             AISkillDriver strafeAndShoot = skillDrivers.FirstOrDefault(x => x.customName == "StrafeAndShoot");
             if (strafeAndShoot)
             {
