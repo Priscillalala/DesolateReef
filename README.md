@@ -9,7 +9,7 @@ Desolate Reef is a stage 2 that reimplements the Void Locus terrain with updated
 <img src="https://github.com/Priscillalala/DesolateReef/blob/master/thunderstore/preview2.png?raw=true" alt="Stage Preview #2">
 
 ## Contact
-Desolate Reef is a reskinned Void Locus, so mods that affect Void Locus will likely affect Desolate Reef too. Please be aware of mod interaction, and report any critical conflicts to me and/or the mod authors.
+Desolate Reef is a reskinned Void Locus, so mods that affect Void Locus will likely affect Desolate Reef too. Please report any critical conflicts to me and/or the mod authors.
 
 You can find me in the [Spikestrip Modding Server](https://discord.gg/me7P53smzk) @Groove_Salad
 #
