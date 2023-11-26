@@ -18,7 +18,6 @@
 		</PackageReference>
 		<PackageReference Include="R2API.Language" Version="1.0.1" />
 		<PackageReference Include="R2API.Prefab" Version="1.0.3" />
-		<PackageReference Include="R2API.ContentManagement" Version="1.0.3" />
 	</ItemGroup>
 
 	<ItemGroup>

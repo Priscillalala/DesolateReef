@@ -19,6 +19,7 @@ namespace CorruptsAllVoidStages
                 { "GS_MAP_DESOLATEREEF_SUBTITLE", "Ruins of the Damned" },
                 //{ "GS_MAP_DESOLATEREEF_LORE", "" },
                 { "GS_BAZAAR_SEER_DESOLATEREEF", "<style=cWorldEvent>You dream of oceanic depths.</style>" },
+                { "GS_UNLOCKABLE_LOG_STAGES_DESOLATEREEF", "Environment Log: Desolate Reef" },
             });
         }
     }

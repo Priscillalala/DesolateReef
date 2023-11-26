@@ -86,6 +86,7 @@ namespace CorruptsAllVoidStages
                 CreateAddressableOp<GameObject>("RoR2/Base/Lemurian/LemurianMaster.prefab", out var LemurianMaster),
                 CreateAddressableOp<NodeGraph>("RoR2/DLC1/voidstage/voidstage_GroundNodeGraph.asset", out var voidstage_GroundNodeGraph),
                 CreateAddressableOp<NodeGraph>("RoR2/DLC1/voidstage/voidstage_AirNodeGraph.asset", out var voidstage_AirNodeGraph),
+                CreateAddressableOp<UnlockableDef>("RoR2/DLC1/voidstage/Logs.Stages.voidstage.asset", out var Logs_Stages_voidstage),
             }, true);
 
             yield return desolateReefAssets;
@@ -310,7 +311,10 @@ namespace CorruptsAllVoidStages
                     voidstage_AirNodeGraph.Result.nodes[i].gateIndex = disabledAirNodeGateIndex;
                 }
             }
+            Logs_Stages_voidstage.Result.nameToken = "GS_UNLOCKABLE_LOG_STAGES_DESOLATEREEF";   
 
+            yield return texDesolateReefPreview;
+            yield return texDesolateReefSeerPreview;
             voidstage.Result.previewTexture = (texDesolateReefPreview.asset as Sprite).texture;
             voidstage.Result.portalMaterial = new Material(matBazaarSeerGolemplains.Result);
             voidstage.Result.portalMaterial.SetTexture("_MainTex", (texDesolateReefSeerPreview.asset as Sprite).texture);

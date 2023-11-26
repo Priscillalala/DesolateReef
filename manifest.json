@@ -1,0 +1,12 @@
+{
+  "name": "DesolateReef",
+  "version_number": "1.0.0",
+  "website_url": "https://github.com/Priscillalala/DesolateReef",
+  "description": "Adds DESOLATE REEF, a stage 2 that looks suspiciously like Void Locus. Also removes Void Locus.",
+  "dependencies": [
+    "bbepis-BepInExPack-5.4.2113",
+    "RiskofThunder-HookGenPatcher-1.2.3",
+    "RiskofThunder-R2API_Language-1.0.1",
+    "RiskofThunder-R2API_Prefab-1.0.3",
+  ]
+}
