@@ -13,6 +13,7 @@ using UnityEngine.Rendering.PostProcessing;
 using RoR2.ExpansionManagement;
 using System.Collections.Generic;
 using R2API;
+using UnityEngine.Networking;
 
 namespace CorruptsAllVoidStages
 {
@@ -83,7 +84,7 @@ namespace CorruptsAllVoidStages
                     selectionWeight = 3f,
                     cards = new[]
                     {
-                        new DirectorCard 
+                        new DirectorCard
                         {
                             spawnCard = cscUnderwaterLemurian,
                             selectionWeight = 2,
@@ -358,7 +359,7 @@ namespace CorruptsAllVoidStages
                     alwaysIncluded = Array.Empty<DccsPool.PoolEntry>(),
                     includedIfConditionsMet = new[]
                     {
-                        new DccsPool.ConditionalPoolEntry 
+                        new DccsPool.ConditionalPoolEntry
                         {
                             dccs = Addressables.LoadAssetAsync<DirectorCardCategorySelection>("RoR2/DLC1/Common/dccsVoidFamily.asset").WaitForCompletion(),
                             weight = 1f,
@@ -815,7 +816,6 @@ namespace CorruptsAllVoidStages
 
         public void Apply(Scene voidStage)
         {
-            Physics.gravity = Vector3.down * 20f;
             Dictionary<string, GameObject> rootObjects = new Dictionary<string, GameObject>();
             foreach (GameObject rootObject in voidStage.GetRootGameObjects())
             {
@@ -836,6 +836,11 @@ namespace CorruptsAllVoidStages
                 {
                     ambient.data.ObjectReference = Addressables.LoadAssetAsync<WwiseObjectReference>("Wwise/3CC8F911-9CA7-416B-A6E9-9748E4CEA659.asset").WaitForCompletion();
                 }
+                GameObject gravity = new GameObject("Gravity");
+                gravity.transform.SetParent(sceneInfo.transform);
+                gravity.SetActive(false);
+                gravity.AddComponent<SetGravity>().newGravity = -20f;
+                gravity.SetActive(true);
             }
             if (rootObjects.TryGetValue("MissionController", out GameObject missionController))
             {
@@ -883,7 +888,7 @@ namespace CorruptsAllVoidStages
                     {
                         voidButress.gameObject.SetActive(true);
                         Material matVoidTrim = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/voidstage/matVoidTrim.mat").WaitForCompletion();
-                        
+
                         void CreateButressFace(Vector3 localPosition, Vector3 localEulerAngles, Vector2 scale)
                         {
                             GameObject face = GameObject.CreatePrimitive(PrimitiveType.Plane);
@@ -920,7 +925,7 @@ namespace CorruptsAllVoidStages
                     Material matVoidFoam = Addressables.LoadAssetAsync<Material>("RoR2/DLC1/voidstage/matVoidFoam.mat").WaitForCompletion();
                     foreach (MeshRenderer meshRenderer in revampedTerrain.GetComponentsInChildren<MeshRenderer>(false))
                     {
-                        
+
                         if (meshRenderer.gameObject.name == "mdlVoidWatcher")
                         {
                             meshRenderer.gameObject.SetActive(false);
@@ -1149,6 +1154,28 @@ namespace CorruptsAllVoidStages
             InstantiateCoral(new Vector3(87f, -12f, 12f), new Vector3(270, 310, 0));
             InstantiateCoral(new Vector3(54f, 14f, -235f), new Vector3(270, 0, 0));
             InstantiateCoral(new Vector3(61f, 7.1f, -98f), new Vector3(270, 90, 0));
+
+            if (NetworkServer.active)
+            {
+                (Vector3, Vector3)[] newtStatuePlacements = new[] 
+                {
+                    (new Vector3(-214.7f, 129.3f, 65.6f), new Vector3(0, 310, 0)),
+                    (new Vector3(35f, -51.7f, -55f), new Vector3(0, 60, 0)),
+                    (new Vector3(-226f, -35f, -25f), new Vector3(0, 70, 5)),
+                };
+                int placementIndex = Run.instance.stageRng.RangeInt(0, newtStatuePlacements.Length);
+                (Vector3, Vector3) newtStatuePlacement = newtStatuePlacements[placementIndex];
+                GameObject instance = UnityEngine.Object.Instantiate(Addressables.LoadAssetAsync<GameObject>("RoR2/Base/NewtStatue/NewtStatue.prefab").WaitForCompletion(), newtStatuePlacement.Item1, Quaternion.Euler(newtStatuePlacement.Item2));
+                if (instance.TryGetComponent(out UnlockableGranter unlockableGranter))
+                {
+                    UnlockableDef unlockableDef = ArrayUtils.GetSafe(Assets.NewtStatueUnlockables, placementIndex);
+                    unlockableGranter.unlockableDef = unlockableDef;
+                    #pragma warning disable CS0618
+                    unlockableGranter.unlockableString = unlockableDef?.cachedName ?? string.Empty;
+                    #pragma warning restore CS0618
+                }
+                NetworkServer.Spawn(instance);
+            }
         }
     }
 }

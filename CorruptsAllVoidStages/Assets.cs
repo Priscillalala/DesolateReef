@@ -20,6 +20,7 @@ namespace CorruptsAllVoidStages
         public static Material matVoidMetalOvergrown { get; private set; }
         public static GameObject VoidCoralLit { get; private set; }
         public static GameObject UnderwaterLemurianMaster { get; private set; }
+        public static UnlockableDef[] NewtStatueUnlockables { get; private set; }
 
         public static void SetNewVoidStageHiddenExpansion(EntitlementDef entitlementDLC1)
         {
@@ -86,6 +87,19 @@ namespace CorruptsAllVoidStages
             if (strafeIdley)
             {
                 UnityEngine.Object.DestroyImmediate(strafeIdley);
+            }
+        }
+
+        public static void SetNewtStatueUnlockables()
+        {
+            NewtStatueUnlockables = new UnlockableDef[3];
+            for (int i = 0; i < NewtStatueUnlockables.Length; i++)
+            {
+                UnlockableDef unlockableDef = ScriptableObject.CreateInstance<UnlockableDef>();
+                unlockableDef.cachedName = "NewtStatue.desolatereef." + i;
+                unlockableDef.nameToken = "UNLOCKABLE_NEWTSTATUE";
+                unlockableDef.hidden = true;
+                NewtStatueUnlockables[i] = unlockableDef;
             }
         }
     }

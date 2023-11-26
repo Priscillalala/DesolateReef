@@ -28,7 +28,9 @@ using System.Collections.Generic;
 
 namespace CorruptsAllVoidStages
 {
-    [BepInPlugin("com.groovesalad.DesolateReef", "DesolateReef", "1.0.0")]
+    [BepInPlugin("com.groovesalad.DesolateReef", "DesolateReef", "1.1.0")]
+    [BepInDependency(LanguageAPI.PluginGUID)]
+    [BepInDependency(PrefabAPI.PluginGUID)]
     public class CorruptsAllVoidStages : BaseUnityPlugin, IContentPackProvider
     {
         public bool disableOcclusionCulling;
@@ -311,7 +313,9 @@ namespace CorruptsAllVoidStages
                     voidstage_AirNodeGraph.Result.nodes[i].gateIndex = disabledAirNodeGateIndex;
                 }
             }
-            Logs_Stages_voidstage.Result.nameToken = "GS_UNLOCKABLE_LOG_STAGES_DESOLATEREEF";   
+            Logs_Stages_voidstage.Result.nameToken = "GS_UNLOCKABLE_LOG_STAGES_DESOLATEREEF";
+
+            Assets.SetNewtStatueUnlockables();
 
             yield return texDesolateReefPreview;
             yield return texDesolateReefSeerPreview;
@@ -329,6 +333,7 @@ namespace CorruptsAllVoidStages
             {
                 Assets.UnderwaterLemurianMaster,
             });
+            contentPack.unlockableDefs.Add(Assets.NewtStatueUnlockables);
         }
 
         public IEnumerator GenerateContentPackAsync(GetContentPackAsyncArgs args)
