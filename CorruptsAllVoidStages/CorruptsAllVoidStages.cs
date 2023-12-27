@@ -28,7 +28,7 @@ using System.Collections.Generic;
 
 namespace CorruptsAllVoidStages
 {
-    [BepInPlugin("com.groovesalad.DesolateReef", "DesolateReef", "1.1.0")]
+    [BepInPlugin("com.groovesalad.DesolateReef", "DesolateReef", "1.1.1")]
     [BepInDependency(LanguageAPI.PluginGUID)]
     [BepInDependency(PrefabAPI.PluginGUID)]
     public class CorruptsAllVoidStages : BaseUnityPlugin, IContentPackProvider
@@ -112,6 +112,9 @@ namespace CorruptsAllVoidStages
                 sceneDef = voidstage.Result,
                 weight = 1f,
             });
+#pragma warning disable CS0618 // Type or member is obsolete
+            voidstage.Result.destinations = Array.Empty<SceneDef>();
+#pragma warning restore CS0618 // Type or member is obsolete
             voidstage.Result.stageOrder = 2;
             voidstage.Result.validForRandomSelection = true;
             voidstage.Result.mainTrack = soundlessDepths.Result;
